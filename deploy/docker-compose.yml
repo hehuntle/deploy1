@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  web-server:
+    build:
+      context: ./ui
+    ports:
+      - 80:6000 # host : container
+    env_file:
+      ./credentials.env
+    volumes:
+      - ./ui/src:/app
+    container_name: home-web
+
+  db-server:
+    image: mysql:latest
+    restart: always
+    env_file:
+      ./credentials.env
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db:/var/lib/mysql # persistent DB when container is stopped
+    container_name: home-db
+
+volumes:
+  database:
